@@ -1,18 +1,20 @@
-node {
-    def dockerImage
-
-    try {
-        dockerImage = docker.image('node:16-buster-slim').withRun('-p 3000:3000') {
-            stage('Build') {
+pipeline {
+    agent {
+        docker {
+            image 'node:16-buster-slim'
+            args '-p 3000:3000'
+        }
+    }
+    stages {
+        stage('Build') {
+            steps {
                 sh 'npm install'
             }
-            stage('Test') {
-                sh './jenkins/scripts/test.sh'
-            }
         }
-    } finally {
-        if (dockerImage != null) {
-            dockerImage.stop()
+        stage('Test') { 
+            steps {
+                sh './jenkins/scripts/test.sh' 
+            }
         }
     }
 }
