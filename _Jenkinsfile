@@ -12,7 +12,7 @@ node {
         }
     } finally {
         if (dockerImage != null) {
-            dockerImage.stop()
+            dockerImage.stop() 
         }
     }
 }
